@@ -24,6 +24,11 @@ async def fetch(session, url):
 
 async def main():
     async with aiohttp.ClientSession() as session:
+        fetch_collection = []
+        for uri in URIS:
+            fetch_collection.append(fetch(session, uri))
+        data = await asyncio.gather(*fetch_collection)
+        write_to_file(data)
         """
         TODO
         1. use 'await asyncio.gather' and 'fetch' to get repo names and avatar_urls
